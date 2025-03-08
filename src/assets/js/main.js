@@ -116,14 +116,14 @@ jQuery(function($) {
 
     /****======  banner-one__slider Slick  ======*******/
 
-    $('.slick').slick({
+    $('.slick').not('.slick-initialized').slick({
       prevArrow: '<div class="slick-arrow arrow-back"> <i class="flaticon-left-arrow-2"></i> </div>',
       nextArrow: '<div class="slick-arrow arrow-next"> <i class="flaticon-right-arrow-2"></i> </div>'
     })
 
 
     /****======  banner-4 Slick  ======*******/
-    $('.banner4slider').slick({
+    $('.banner4slider').not('.slick-initialized').slick({
       dots: false,
       infinite: true,
       slidesToShow: 1,
@@ -138,7 +138,7 @@ jQuery(function($) {
 
     /****======  Home 5 Banner Slider  ======*******/
     if ($('.hero-slider5').length) {
-      $('.hero-slider5').slick({
+      $('.hero-slider5').not('.slick-initialized').slick({
         dots: true,
         arrows: false,
         infinite: false,
@@ -163,7 +163,7 @@ jQuery(function($) {
 
     /****======  product 5  CAtagory ======*******/
     if ($('.product-cat-slider').length) {
-      $('.product-cat-slider').slick({
+      $('.product-cat-slider').not('.slick-initialized').slick({
         dots: false,
         arrows: true,
         infinite: true,
@@ -203,7 +203,7 @@ jQuery(function($) {
 
     /****======  partnerslider Slick  ======*******/
     if ($('.partnerslider').length) {
-      $('.partnerslider').slick({
+      $('.partnerslider').not('.slick-initialized').slick({
         dots: false,
         infinite: true,
         speed: 300,
@@ -247,7 +247,7 @@ jQuery(function($) {
 
     /****======  partnerslider-four Slick  ======*******/
     if ($('.partnerslider-four').length) {
-      $('.partnerslider-four').slick({
+      $('.partnerslider-four').not('.slick-initialized').slick({
         dots: false,
         infinite: true,
         speed: 300,
@@ -291,7 +291,7 @@ jQuery(function($) {
 
     /****======  reviewOneSlider  ======*******/
     if ($('.reviewOneSlider').length) {
-      $('.reviewOneSlider').slick({
+      $('.reviewOneSlider').not('.slick-initialized').slick({
         dots: false,
         infinite: true,
         speed: 300,
@@ -322,7 +322,7 @@ jQuery(function($) {
 
     /****======  ftproductgr  ======*******/
     if ($('.ftproductgr').length) {
-      $('.ftproductgr').slick({
+      $('.ftproductgr').not('.slick-initialized').slick({
         dots: false,
         infinite: true,
         speed: 300,
@@ -347,7 +347,7 @@ jQuery(function($) {
 
     /****======  testimonial-two__slider  ======*******/
     if ($('.testimonial-two__slider').length) {
-      $('.testimonial-two__slider').slick({
+      $('.testimonial-two__slider').not('.slick-initialized').slick({
         dots: false,
         infinite: true,
         speed: 300,
@@ -376,7 +376,7 @@ jQuery(function($) {
 
     /****======  product-two-slider-box  ======*******/
     if ($('.product-two-slider-box').length) {
-      $('.product-two-slider-box').slick({
+      $('.product-two-slider-box').not('.slick-initialized').slick({
         dots: false,
         infinite: true,
         speed: 300,
@@ -413,7 +413,7 @@ jQuery(function($) {
 
     /****====== Catagory_slider  ======*******/
     if ($('.catagory-slider').length) {
-      $('.catagory-slider').slick({
+      $('.catagory-slider').not('.slick-initialized').slick({
         dots: false,
         infinite: false,
         speed: 300,
@@ -459,7 +459,7 @@ jQuery(function($) {
 
 
     if ($('.catagory-slider-three').length) {
-      $('.catagory-slider-three').slick({
+      $('.catagory-slider-three').not('.slick-initialized').slick({
         dots: false,
         infinite: false,
         speed: 300,
@@ -506,7 +506,7 @@ jQuery(function($) {
 
     /****======  product-slider   ======*******/
     if ($('.product-slider-main').length) {
-      $('.product-slider-main').slick({
+      $('.product-slider-main').not('.slick-initialized').slick({
         dots: false,
         infinite: true,
         speed: 300,
@@ -524,7 +524,7 @@ jQuery(function($) {
 
     /****====== Hero-Slider Start  ======*******/
     if ($('.hero-slider').length) {
-      $('.hero-slider').slick({
+      $('.hero-slider').not('.slick-initialized').slick({
         dots: false,
         infinite: false,
         speed: 300,
@@ -561,7 +561,7 @@ jQuery(function($) {
 
 
     /****====== product single 3  ======*******/
-    $('.single-product-three').slick({
+    $('.single-product-three').not('.slick-initialized').slick({
       dots: false,
       infinite: false,
       speed: 300,
@@ -576,7 +576,7 @@ jQuery(function($) {
       pauseOnHover: false
     })
 
-    $('.single-product-three-nav').slick({
+    $('.single-product-three-nav').not('.slick-initialized').slick({
       slidesToShow: 5,
       slidesToScroll: 1,
       asNavFor: '.slider-for',
@@ -592,7 +592,7 @@ jQuery(function($) {
 
 
     /****====== product single 2  ======*******/
-    $('.single-product-two').slick({
+    $('.single-product-two').not('.slick-initialized').slick({
       dots: false,
       infinite: false,
       speed: 300,
@@ -606,7 +606,7 @@ jQuery(function($) {
       asNavFor: '.slider-nav',
       pauseOnHover: false
     })
-    $('.single-product-two-nav').slick({
+    $('.single-product-two-nav').not('.slick-initialized').slick({
       slidesToShow: 4,
       slidesToScroll: 1,
       asNavFor: '.slider-for',
@@ -639,7 +639,7 @@ jQuery(function($) {
 
 
     /****====== product single 1  ======*******/
-    $('.single-product-one').slick({
+    $('.single-product-one').not('.slick-initialized').slick({
       dots: false,
       infinite: false,
       speed: 300,
@@ -654,7 +654,7 @@ jQuery(function($) {
       pauseOnHover: false
     })
 
-    $('.single-product-one-nav').slick({
+    $('.single-product-one-nav').not('.slick-initialized').slick({
       slidesToShow: 3,
       slidesToScroll: 1,
       asNavFor: '.slider-for',
@@ -679,7 +679,7 @@ jQuery(function($) {
 
     /****======  gallery-two__slider Start  ======*******/
     if ($('.gallery-two__slider').length) {
-      $('.gallery-two__slider').slick({
+      $('.gallery-two__slider').not('.slick-initialized').slick({
         dots: false,
         infinite: true,
         speed: 300,
@@ -747,7 +747,7 @@ jQuery(function($) {
 
     /****======   Blog Page  ======*******/
     if ($('.blog-thumb-slider').length) {
-      $('.blog-thumb-slider').slick({
+      $('.blog-thumb-slider').not('.slick-initialized').slick({
         dots: false,
         infinite: true,
         speed: 1000,
@@ -765,7 +765,7 @@ jQuery(function($) {
 
     /****======  partnerslider-four Slick  ======*******/
     if ($('.insta-slider').length) {
-      $('.insta-slider').slick({
+      $('.insta-slider').not('.slick-initialized').slick({
         dots: false,
         infinite: true,
         speed: 300,

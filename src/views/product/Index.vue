@@ -1,5 +1,4 @@
 <script>
-import axios from 'axios'
 
 export default {
   name: 'Index',
@@ -12,54 +11,59 @@ export default {
       colors: [],
       tags: [],
       prices: [],
-      name: false
+      name: false,
+      order: '',
+      pagination: []
     }
   },
   mounted() {
     $(document).trigger('changed')
     this.getProducts()
     this.getFilterList()
+    this.$nextTick(() => {
+      // Навешиваем обработчик изменения на исходный select
+      $('select').on('change', (e) => {
+        this.order = String(e.target.value)
+        this.filterProducts()
+      })
+    })
+
   },
   methods: {
     filterProducts() {
-      this.axios.post('http://127.0.0.1:8876/api/products', {
-        'categories': this.categories,
-        'colors': this.colors,
-        'tags': this.tags,
-        'prices': this.prices,
-      })
-        .then(res => {
-          this.products = res.data.data
-          console.log(res)
-        })
-        .finally(v => {
-          $(document).trigger('changed')
-        })
+      this.getProducts()
+    },
+    onOrderChange() {
+      console.log(this.order)
     },
     addColor(id) {
       if (!this.colors.some(elem => elem.id === id)) {
-        this.colors.push({ id });
+        this.colors.push({ id })
       } else {
-        this.colors = this.colors.filter(elem => elem.id !== id);
+        this.colors = this.colors.filter(elem => elem.id !== id)
       }
     },
     addTag(id) {
       if (!this.tags.some(elem => elem.id === id)) {
-        this.tags.push({ id });
+        this.tags.push({ id })
       } else {
-        this.tags = this.tags.filter(elem => elem.id !== id);
+        this.tags = this.tags.filter(elem => elem.id !== id)
       }
     },
 
-    getProducts() {
+    getProducts(page = 1) {
       this.axios.post('http://127.0.0.1:8876/api/products', {
         'categories': this.categories,
         'colors': this.colors,
         'tags': this.tags,
         'prices': this.prices,
+        'order': this.order,
+        'page': page
       })
         .then(res => {
           this.products = res.data.data
+          this.pagination = res.data.meta
+          console.log(res)
         })
         .finally(v => {
           $(document).trigger('changed')
@@ -87,12 +91,12 @@ export default {
               max: this.filterList.price.max,
               values: [this.filterList.price.min, this.filterList.price.max],
               slide: (event, ui) => {
-                $('#priceRange').val(`$${ui.values[0]} - $${ui.values[1]}`);
-                this.prices = [ui.values[0], ui.values[1]];
+                $('#priceRange').val(`$${ui.values[0]} - $${ui.values[1]}`)
+                this.prices = [ui.values[0], ui.values[1]]
               }
-            });
+            })
             $('#priceRange').val('$' + $('#price-range').slider('values', 0) + ' - $' + $('#price-range').slider('values', 1))
-            this.prices = [this.filterList.price.min, this.filterList.price.max];
+            this.prices = [this.filterList.price.min, this.filterList.price.max]
           }
         })
         .finally(v => {
@@ -208,8 +212,12 @@ export default {
                     <h4>Select Categories</h4>
                     <div class="checkbox-item">
                       <form>
-                        <div v-for="category in filterList.categories" class="form-group"><input :value="category.id" v-model="categories" type="checkbox" :id="category.id"> <label
-                          :for="category.id">{{ category.title }}</label></div>
+                        <div v-for="category in filterList.categories" class="form-group"><input :value="category.id"
+                                                                                                 v-model="categories"
+                                                                                                 type="checkbox"
+                                                                                                 :id="category.id">
+                          <label
+                            :for="category.id">{{ category.title }}</label></div>
                       </form>
                     </div>
                   </div>
@@ -217,7 +225,8 @@ export default {
                     <h4>Color Option </h4>
                     <ul class="color-option">
                       <li v-for="color in filterList.colors">
-                        <a @click.prevent="addColor(color.id)" href="#0" class="color-option-single" :style="`background: #${color.title}`"> <span>{{ color.title }}</span> </a>
+                        <a @click.prevent="addColor(color.id)" href="#0" class="color-option-single"
+                           :style="`background: #${color.title}`"> <span>{{ color.title }}</span> </a>
                       </li>
                     </ul>
                   </div>
@@ -255,14 +264,10 @@ export default {
                       class="right-box justify-content-md-between justify-content-center wow fadeInUp animated">
                       <div class="short-by">
                         <div class="select-box">
-                          <select class="wide">
-                            <option data-display="Short by latest">Featured</option>
-                            <option value="1">Best selling</option>
-                            <option value="2">Alphabetically, A-Z</option>
-                            <option value="3">Alphabetically, Z-A</option>
-                            <option value="3">Price, low to high</option>
-                            <option value="3">Price, high to low</option>
-                            <option value="3">Date, old to new</option>
+                          <select v-model="order" @change="onOrderChange" class="wide">
+                            <option value="" data-display="Short by latest">Featured</option>
+                            <option value="ASC">Price, low to high</option>
+                            <option value="DESC">Price, high to low</option>
                           </select>
                         </div>
                       </div>
@@ -419,8 +424,11 @@ export default {
                                 </div>
                               </div>
                             </div>
-                            <div class="products-three-single-content text-center"><span>{{ product.category.title }}</span>
-                              <h5><a href="shop-details-3.html"> {{ product.title }} </a>
+                            <div class="products-three-single-content text-center"><span>{{
+                                product.category.title
+                              }}</span>
+                              <h5>
+                                <router-link :to="{name: 'products.show', params: { id: product.id }}"> {{ product.title }} </router-link>
                               </h5>
                               <p>
                                 <del>${{ product.past_price }}.00</del>
@@ -434,18 +442,59 @@ export default {
                   </div>
                 </div>
               </div>
-              <div class="row">
+              <div v-if="pagination.last_page > 1" class="row">
                 <div class="col-12 d-flex justify-content-center wow fadeInUp animated">
                   <ul class="pagination text-center">
-                    <li class="next"><a href="#0"><i class="flaticon-left-arrows"
-                                                     aria-hidden="true"></i> </a></li>
-                    <li><a href="#0">1</a></li>
-                    <li><a href="#0" class="active">2</a></li>
-                    <li><a href="#0">3</a></li>
-                    <li><a href="#0">...</a></li>
-                    <li><a href="#0">10</a></li>
-                    <li class="next"><a href="#0"><i class="flaticon-next-1"
-                                                     aria-hidden="true"></i> </a></li>
+                    <!-- Кнопка "Назад" -->
+                    <li v-if="pagination.current_page !== 1" class="next">
+                      <a @click.prevent="getProducts(pagination.current_page - 1)" href="#0">
+                        <i class="flaticon-left-arrows" aria-hidden="true"></i>
+                      </a>
+                    </li>
+
+                    <!-- Ссылки на страницы -->
+                    <li v-for="link in pagination.links" :key="link.label">
+                      <!-- Отображаем числовые ссылки (1,2,3...N), которые должны быть видны -->
+                      <template
+                        v-if="
+        Number(link.label) &&
+        (
+          (pagination.current_page - link.label < 2 && pagination.current_page + link.label > -2)
+          || Number(link.label) === 1
+          || Number(link.label) === pagination.last_page
+        )
+      "
+                      >
+                        <a
+                          @click.prevent="getProducts(link.label)"
+                          :class="link.active ? 'active' : ''"
+                          href="#0"
+                        >
+                          {{ link.label }}
+                        </a>
+                      </template>
+
+                      <!-- Отображаем троеточия, когда между страницами появляется разрыв -->
+                      <template
+                        v-else-if="
+        Number(link.label) &&
+        (
+          (pagination.current_page !== 3 && (pagination.current_page - link.label === 2))
+          ||
+          (pagination.current_page !== pagination.last_page - 2 && (pagination.current_page - link.label === -2))
+        )
+      "
+                      >
+                        <a>...</a>
+                      </template>
+                    </li>
+
+                    <!-- Кнопка "Вперёд" -->
+                    <li v-if="pagination.current_page !== pagination.last_page" class="next">
+                      <a @click.prevent="getProducts(pagination.current_page + 1)" href="#0">
+                        <i class="flaticon-next-1" aria-hidden="true"></i>
+                      </a>
+                    </li>
                   </ul>
                 </div>
               </div>
